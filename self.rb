@@ -1,8 +1,9 @@
-class Blarg
+other = class Other
   def callit; yield; end
   def lamb; lambda {self}; end
+  new
 end
 
-x = Blarg.new
-
-[ self, x.callit {self}, x.lamb.call ]
+self
+other.callit {self}
+other.lamb.call

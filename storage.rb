@@ -5,4 +5,8 @@ $phases = [
   lambda {|player| p "#{player} acts"}
 ]
 
-$phases.each {|phase| $players.each{|player| phase.call(player)}}
+$phases.each {|phase|
+  $players.each {|player|
+    phase.call(player)
+  }
+}

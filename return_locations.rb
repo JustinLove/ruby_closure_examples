@@ -1,4 +1,4 @@
-def blarg
+def thrice
   return [
     yield(1), # <= next goes here
     yield(2), # <= and here
@@ -7,7 +7,7 @@ def blarg
 end
 
 def caller
-  x = blarg {|a| ???? a} # <= break goes here
+  x = thrice {|a| ???? a} # <= break goes here
   return x.to_s
 end
 

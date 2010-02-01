@@ -1,11 +1,19 @@
-def blarg(&z); return [ z.call(1), z.call(2), z.call(3) ]; end
+def thrice(&z)
+  return [ z.call(1), z.call(2), z.call(3) ]
+end
 
-$z = lambda {|a| return a}
-def r; return blarg(&$z).to_s; end
-def b; return blarg(&lambda {|a| break  a}).to_s; end
-def n; return blarg(&lambda {|a| next   a}).to_s; end
-def x; return blarg(&lambda {|a|        a}).to_s; end
+def r
+  return thrice(&lambda {|a| return a}).to_s
+end; r
 
-p $z.call(1)
+def b
+  return thrice(&lambda {|a| break  a}).to_s
+end; b
 
-[ r, n, x ]
+def n
+  return thrice(&lambda {|a| next   a}).to_s
+end; n
+
+def x
+  return thrice(&lambda {|a|        a}).to_s
+end; x

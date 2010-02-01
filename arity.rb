@@ -1,4 +1,4 @@
-def blarg(&proc)
+def range_query(&proc)
   range = 1..5
   case proc.arity
   when 1; proc.call(range)
@@ -7,6 +7,6 @@ def blarg(&proc)
   end
 end
 
-blarg {|one| one}
-blarg {|one, two| [one,two]}
-blarg {|one, two, three| [one, two, three]}
+range_query {|one| one}
+range_query {|one, two| [one,two]}
+range_query {|one, two, three| [one, two, three]}

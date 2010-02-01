@@ -1,9 +1,9 @@
-x = lambda {|a,b| a + b}
+plus = lambda {|a,b| a + b}
 
-def blarg
+def twice
   [yield(1,2), yield(3,4)]
 end
 
-blarg(x)
+twice(plus)
 
-blarg(&x)
+twice(&plus)

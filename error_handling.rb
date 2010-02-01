@@ -1,11 +1,11 @@
-class Blarg
-  def initialize(&handler); @handler = handler; end
-  def even?(x); @handler.call(x) unless x.even?; end
+def even(x)
+  yield(x) unless x.even?
 end
 
-a = Blarg.new {|x| p "#{x} isn't even"}
-b = Blarg.new {|x| raise 'hell'}
+even(2) {|x| p "#{x} isn't even"}
+even(3) {|x| p "#{x} isn't even"}
 
-a.even?(2)
-a.even?(3)
-b.even?(3)
+even(3) {|x| raise 'hell'}
+
+errorHandler = lambda {|x| p 'handled'}
+even(3, &errorHandler);

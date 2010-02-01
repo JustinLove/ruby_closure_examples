@@ -1,5 +1,6 @@
-x = lambda {|a, b| a + b}
+plus = lambda {|a, b| a + b}
 
-x(1, 2)
+plus(1, 2)
 
-[ x.call(1, 2), x[3, 4] ]
+plus.call(1, 2)
+plus[3, 4]

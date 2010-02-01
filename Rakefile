@@ -11,9 +11,11 @@ end
 
 rule '.txt' => '.rb' do |t|
   sh "irb --prompt xmp #{t.prerequisites} >#{t.name}"
-  File.open(t.name, "r+") do |f|
+  text = File.open(t.name, "r") do |f|
     text = f.read.gsub(/0x[\da-f]+/, '0x...')
-    f.seek(0);
+    text
+  end
+  File.open(t.name, "w") do |f|
     f.write(text);
     puts text;
   end

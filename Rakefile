@@ -3,7 +3,7 @@ TXT = SRC.ext('txt')
 
 def post_process(filename)
   text = File.open(filename, "r") do |f|
-    text = f.read.gsub(/0x[\da-f]+/, '0x...')
+    text = f.read.gsub(/0x[\da-f]+/, '0x...').gsub(File.basename(filename, '.txt'), 'file')
     text
   end
   File.open(filename, "w") do |f|

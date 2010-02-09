@@ -1,7 +1,15 @@
-1.method(:+).call(2)
+def adder(a)
+  return lambda {|b| a + b}
+end
 
-1.method(:+).class
+plus1 = adder(1)
+plus1.call(2)
 
-Fixnum.instance_method(:+).class
+plus1 = 1.method(:+)
+plus1.call(2)
 
-Fixnum.instance_method(:+).respond_to?(:call)
+plus1.class
+
+im = Fixnum.instance_method(:+)
+
+im.respond_to?(:call)

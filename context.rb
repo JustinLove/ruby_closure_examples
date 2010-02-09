@@ -1,6 +1,7 @@
 f = File.open('context.rb')
 f.read.length
-f.closed? # Opps, forgot to close it
+# Opps, forgot to close it
+f.closed?
 
 File.open('context.rb') do |f|
   $f = f

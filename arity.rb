@@ -8,5 +8,7 @@ def range_query(&proc)
 end
 
 range_query {|one| one}
-range_query {|one, two| [one,two]}
-range_query {|one, two, three| [one, two, three]}
+range_query {|one, two|
+  [one,two]}
+range_query {|one, two, three|
+  [one, two, three]}

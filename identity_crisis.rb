@@ -1,9 +1,12 @@
-game = class CardGame
+class CardGame
   def shuffle; end
   def deal; end
-  def play(&proc); instance_eval(&proc); end
-  new
+  def play(&proc)
+    instance_eval(&proc)
+  end
 end
+
+game = CardGame.new
 
 game.play do
   shuffle

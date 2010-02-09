@@ -1,5 +1,7 @@
-1.method(:+).unbind.class
+plus1 = 1.method(:+)
+im = Fixnum.instance_method(:+)
 
-Fixnum.instance_method(:+).bind(1).class
+im.bind(1)
+im.bind(1).call(2)
 
-Fixnum.instance_method(:+).bind(1).call(2)
+plus1.unbind

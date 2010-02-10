@@ -1,6 +1,6 @@
 class Buffer;
-  def delay(&proc)
-    result, @saved = saved.call, proc
+  def delay(&block)
+    result, @saved = saved.call, block
     result
   end
   def saved; @saved || lambda {}; end

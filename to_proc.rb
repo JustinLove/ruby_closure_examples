@@ -1,8 +1,8 @@
 class Component
   @@actions = {}
-  def self.define_action(name, &proc);
-    @@actions[name] = proc; end
-  def initialize(name);
+  def self.define_action(name, &block)
+    @@actions[name] = block; end
+  def initialize(name)
     super(); @name = name; end
   def to_proc; @@actions[@name]; end
 end

@@ -1,8 +1,8 @@
 class CardGame
   def shuffle; end
   def deal; end
-  def play(&proc)
-    instance_eval(&proc)
+  def play(&block)
+    instance_eval(&block)
   end
 end
 

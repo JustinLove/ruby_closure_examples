@@ -13,7 +13,7 @@ def post_process(filename)
 end
 
 def spec(t)
-  `spec #{t.prerequisites} >#{t.name}`
+  `spec #{t.prerequisites} -f specdoc >#{t.name}`
   puts File.read(t.name)
 end
 
@@ -24,6 +24,10 @@ end
 
 file 'return_locations.txt' => 'return_locations.rb' do |t|
   sh "cp #{t.prerequisites} #{t.name}" 
+end
+
+rule 'return.txt' => 'return.rb' do |t|
+  spec(t)
 end
 
 rule 'first_class_spec.txt' => 'first_class_spec.rb' do |t|

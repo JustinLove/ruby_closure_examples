@@ -7,7 +7,8 @@ def thrice
 end
 
 def caller
-  x = thrice {|a| ???? a} # <= break goes here
+  x = # <= break goes here
+    thrice {|a| ???? a}
   return x.to_s
 end
 

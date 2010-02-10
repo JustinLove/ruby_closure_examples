@@ -1,5 +1,6 @@
 SRC = FileList['*.rb']
 TXT = SRC.ext('txt')
+SPEC = FileList['*_spec.rb']
 
 def post_process(filename)
   text = File.open(filename, "r") do |f|
@@ -26,16 +27,10 @@ file 'return_locations.txt' => 'return_locations.rb' do |t|
   sh "cp #{t.prerequisites} #{t.name}" 
 end
 
-rule 'return_spec.txt' => 'return_spec.rb' do |t|
-  spec(t)
-end
-
-rule 'first_class_spec.txt' => 'first_class_spec.rb' do |t|
-  spec(t)
-end
-
-rule 'super_spec.txt' => 'super_spec.rb' do |t|
-  spec(t)
+SPEC.each do |filename|
+  file filename.gsub('.rb', '.txt') => filename do |t|
+    spec(t)
+  end
 end
 
 rule '.txt' => '.rb' do |t|

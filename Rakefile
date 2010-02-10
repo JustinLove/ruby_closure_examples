@@ -26,7 +26,7 @@ file 'return_locations.txt' => 'return_locations.rb' do |t|
   sh "cp #{t.prerequisites} #{t.name}" 
 end
 
-rule 'return.txt' => 'return.rb' do |t|
+rule 'return_spec.txt' => 'return_spec.rb' do |t|
   spec(t)
 end
 

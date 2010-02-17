@@ -2,7 +2,7 @@
 
 Presentation by Justin Love to ChicagoRuby 2010-02-20.  Slides available:
 
-http://JustinLove.name/Presentation.
+http://JustinLove.name/presentations/index.html
 
 Not all examples made it into the talk.
 

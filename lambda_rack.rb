@@ -1,10 +1,11 @@
 require 'rubygems'
 require 'rack'
 
-app = lambda {|env|
-  [200, {'ContentType' => 'text/plain'},
+app = lambda do |env|
+  [200,
+    {'ContentType' => 'text/plain'},
     Time.now.to_s]
-}
+end
 
 rack = Rack::MockRequest.new(app)
 

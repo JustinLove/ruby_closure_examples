@@ -12,12 +12,12 @@ class BacktraceCleaner
     @silencers << block
   end
 
-  def silence(backtrace)
+  def silence(bc)
     @silencers.each do |s|
-      backtrace = backtrace.reject { |line| s.call(line) }
+      bc = bc.reject { |line| s.call(line) }
     end
 
-    backtrace
+    bc
   end
 end
 

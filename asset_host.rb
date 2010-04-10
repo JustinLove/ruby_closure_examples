@@ -4,7 +4,8 @@
 # Really config.action_controller.asset_host
 
 asset_host = Proc.new { |source|
-  "http://assets#{source.hash % 2 + 1}.example.com"
+  "http://assets#{source.hash % 2 + 1}.rlyeh.com"
 }
 
-(1..5).map {|i| asset_host.call i.to_s}
+['Cthulhu.gif', 'Nyarlathotep.png', 'Shub-Niggurath.jpg'].
+  map {|i| asset_host.call i.to_s}

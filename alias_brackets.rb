@@ -1,6 +1,6 @@
 cthulhu = class Cthulhu
   def call
-    :fnord
+    "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn"
   end
   new
 end

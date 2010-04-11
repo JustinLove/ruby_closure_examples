@@ -1,6 +1,8 @@
 def hidden_number
   a = 0
-  return [ lambda {|b| a = a + b}, lambda {|b| a = a * b} ]
+  return [
+    lambda {|b| a = a + b}, 
+    lambda {|b| a *= b} ]
 end
 
 plus, times = hidden_number

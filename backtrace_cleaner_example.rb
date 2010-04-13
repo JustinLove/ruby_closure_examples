@@ -13,6 +13,7 @@ class BacktraceCleaner
   end
 
   def silence(bc)
+    bc = bc.lines
     @silencers.each do |s|
       bc = bc.reject { |line| s.call(line) }
     end

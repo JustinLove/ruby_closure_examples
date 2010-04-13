@@ -5,7 +5,7 @@ class App
   def call(env)
     [200,
       {'ContentType' => 'text/plain'},
-      Time.now.to_s]
+      Time.now.to_s.lines]
   end
 end
 

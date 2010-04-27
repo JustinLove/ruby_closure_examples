@@ -15,7 +15,17 @@ class BacktraceCleaner
   def silence(bc)
     bc = bc.lines
     @silencers.each do |s|
-      bc = bc.reject { |line| s.call(line) }
+      bc = bc.reject { |line|
+        s.call(line) }
+    end
+
+    bc
+  end
+
+  def alt_silence(bc)
+    bc = bc.lines
+    @silencers.each do |s|
+      bc = bc.reject &s
     end
 
     bc
@@ -29,8 +39,11 @@ begin
   bc
 end
 
-bc.silence <<-GATES
+gates = <<-GATES
 Abandon all hope,
 ye who enter here
 GATES
 
+bc.silence gates
+
+bc.alt_silence gates

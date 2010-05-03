@@ -44,11 +44,6 @@ def lift(m, &f)
   end
 end
 
-plus = lambda {|a, b| a + b}
-mplus = lift(Dot, &plus)
-
-mplus.call Dot.new(2), Dot.new(3)
-
 describe Dot do
   describe "Monad Laws" do
     it "1. left associative" do
@@ -70,5 +65,26 @@ describe Dot do
         inc.call(a).bind(&dec)
       end
     end
+  end
+end
+
+describe "lift" do
+  it "a one argument function" do
+    inc = lambda {|a| a + 1 }
+    minc = lift(Dot, &inc)
+    minc.call(Dot.new(2)).should == Dot.new(inc.call(2))
+  end
+
+  it "a two argument function" do
+    plus = lambda {|a, b| a + b}
+    mplus = lift(Dot, &plus)
+    mplus.call(Dot.new(2), Dot.new(3)).should == Dot.new(plus.call(2, 3))
+  end
+
+  it "a three argument function" do
+    cond = lambda {|a, b, c| (a == 0) ? b : c}
+    mcond = lift(Dot, &cond)
+    mcond.call(Dot.new(0), Dot.new(1), Dot.new(2)).should == Dot.new(cond.call(0, 1, 2))
+    mcond.call(Dot.new(1), Dot.new(1), Dot.new(2)).should == Dot.new(cond.call(1, 1, 2))
   end
 end

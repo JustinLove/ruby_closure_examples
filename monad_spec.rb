@@ -64,6 +64,14 @@ def liftM2(m, &f)
   end
 end
 
+describe "liftM2" do
+  it "a two argument function" do
+    plus = lambda {|a, b| a + b}
+    mplus = liftM2(Dot, &plus)
+    mplus.call(Dot.wrap(2), Dot.wrap(3)).should == Dot.wrap(plus.call(2, 3))
+  end
+end
+
 def lever(m, args, margs, f)
   return m.wrap(f.call(*args)) if margs.empty?
   margs.first.pass do |x|

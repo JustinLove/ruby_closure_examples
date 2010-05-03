@@ -26,29 +26,6 @@ class Dot
   end
 end
 
-def liftM2(m, &f)
-  lambda do |ma, mb|
-    ma.pass do |a|
-      mb.pass do |b|
-        m.wrap(f.call(a, b))
-      end
-    end
-  end
-end
-
-def lever(m, args, margs, f)
-  return m.wrap(f.call(*args)) if margs.empty?
-  margs.first.pass do |x|
-    lever(m, args+[x], margs[1..-1], f)
-  end
-end
-
-def lift(m, &f)
-  lambda do |*margs|
-    lever(m, [], margs, f)
-  end
-end
-
 describe Dot do
   it "has a private constructor" do
     lambda {Dot.new(1)}.should raise_error
@@ -74,6 +51,29 @@ describe Dot do
         inc.call(a).pass(&dec)
       end
     end
+  end
+end
+
+def liftM2(m, &f)
+  lambda do |ma, mb|
+    ma.pass do |a|
+      mb.pass do |b|
+        m.wrap(f.call(a, b))
+      end
+    end
+  end
+end
+
+def lever(m, args, margs, f)
+  return m.wrap(f.call(*args)) if margs.empty?
+  margs.first.pass do |x|
+    lever(m, args+[x], margs[1..-1], f)
+  end
+end
+
+def lift(m, &f)
+  lambda do |*margs|
+    lever(m, [], margs, f)
   end
 end
 

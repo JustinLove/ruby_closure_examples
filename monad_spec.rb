@@ -1,5 +1,10 @@
+# Why are we playing with monads?  Mostly because of "Uncle Bob" Martin's
+#  "WTF are Monads?" at Chicago Code Camp.
+# They also happen to use a lot closures.
+
 require 'spec'
 
+#this is mostly monad stuff; but it usees yield.
 class Dot
   def initialize(n)
     @value = case n
@@ -26,6 +31,7 @@ class Dot
   end
 end
 
+#Some fun Proc passing in the tests
 describe Dot do
   it "has a private constructor" do
     lambda {Dot.new(1)}.should raise_error
@@ -54,6 +60,9 @@ describe Dot do
   end
 end
 
+# Brute force version of lift.
+# Uses nested closures
+# But I wouldn't want a file full of 1, 2, 3, etc.
 def liftM2(m, &f)
   lambda do |ma, mb|
     ma.pass do |a|
@@ -72,7 +81,8 @@ describe "liftM2" do
   end
 end
 
-
+# Now we're having some real fun.
+#   A locally defined closure captures m & f, oh - and itself - for recursion
 def lift(m, &f)
   lever = lambda do |args, margs|
     return m.wrap(f.call(*args)) if margs.empty?
@@ -115,7 +125,8 @@ describe "lift" do
   it_should_behave_like "lifts"
 end
 
-# and now for utter madness, define lift using the Y combinator
+# and now for utter madness, I happend to notice that last version
+#  fit the pattern for Y combinator, so redefine lift using Y
 Y = lambda do |f|
   lambda do |x|
     lambda {|*args| f[ x[x], *args ]}
@@ -127,10 +138,10 @@ end
 
 def liftY(m, &f)
   lambda do |*liftargs|
-    Y.call(lambda { |lever, args, margs|
+    Y.call(lambda { |continuation, args, margs|
       return m.wrap(f.call(*args)) if margs.empty?
       margs.first.pass do |x|
-        lever.call(args+[x], margs[1..-1])
+        continuation.call(args+[x], margs[1..-1])
       end
     }).call([], liftargs)
   end

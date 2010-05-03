@@ -72,16 +72,16 @@ describe "liftM2" do
   end
 end
 
-def lever(m, args, margs, f)
-  return m.wrap(f.call(*args)) if margs.empty?
-  margs.first.pass do |x|
-    lever(m, args+[x], margs[1..-1], f)
-  end
-end
 
 def lift(m, &f)
+  lever = lambda do |args, margs|
+    return m.wrap(f.call(*args)) if margs.empty?
+    margs.first.pass do |x|
+      lever.call(args+[x], margs[1..-1])
+    end
+  end
   lambda do |*margs|
-    lever(m, [], margs, f)
+    lever.call([], margs)
   end
 end
 

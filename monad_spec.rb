@@ -85,25 +85,34 @@ def lift(m, &f)
   end
 end
 
-describe "lift" do
+
+shared_examples_for "lifts" do
   it "a one argument function" do
     inc = lambda {|a| a + 1 }
-    minc = lift(Dot, &inc)
+    minc = @lift.call(Dot, &inc)
     minc.call(Dot.wrap(2)).should == Dot.wrap(inc.call(2))
   end
 
   it "a two argument function" do
     plus = lambda {|a, b| a + b}
-    mplus = lift(Dot, &plus)
+    mplus = @lift.call(Dot, &plus)
     mplus.call(Dot.wrap(2), Dot.wrap(3)).should == Dot.wrap(plus.call(2, 3))
   end
 
   it "a three argument function" do
     cond = lambda {|a, b, c| (a == 0) ? b : c}
-    mcond = lift(Dot, &cond)
+    mcond = @lift.call(Dot, &cond)
     mcond.call(Dot.wrap(0), Dot.wrap(1), Dot.wrap(2)).should == Dot.wrap(cond.call(0, 1, 2))
     mcond.call(Dot.wrap(1), Dot.wrap(1), Dot.wrap(2)).should == Dot.wrap(cond.call(1, 1, 2))
   end
+end
+
+describe "lift" do
+  before :all do
+    @lift = method :lift
+  end
+  
+  it_should_behave_like "lifts"
 end
 
 # and now for utter madness, define lift using the Y combinator
@@ -128,23 +137,9 @@ def liftY(m, &f)
 end
 
 describe "liftY" do
-  it "a one argument function" do
-    inc = lambda {|a| a + 1 }
-    minc = liftY(Dot, &inc)
-    minc.call(Dot.wrap(2)).should == Dot.wrap(inc.call(2))
+  before :all do
+    @lift = method :liftY
   end
-
-  it "a two argument function" do
-    plus = lambda {|a, b| a + b}
-    mplus = liftY(Dot, &plus)
-    mplus.call(Dot.wrap(2), Dot.wrap(3)).should == Dot.wrap(plus.call(2, 3))
-  end
-
-  it "a three argument function" do
-    cond = lambda {|a, b, c| (a == 0) ? b : c}
-    mcond = liftY(Dot, &cond)
-    mcond.call(Dot.wrap(0), Dot.wrap(1), Dot.wrap(2)).should == Dot.wrap(cond.call(0, 1, 2))
-    mcond.call(Dot.wrap(1), Dot.wrap(1), Dot.wrap(2)).should == Dot.wrap(cond.call(1, 1, 2))
-  end
+  
+  it_should_behave_like "lifts"
 end
-

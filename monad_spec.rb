@@ -105,3 +105,46 @@ describe "lift" do
     mcond.call(Dot.wrap(1), Dot.wrap(1), Dot.wrap(2)).should == Dot.wrap(cond.call(1, 1, 2))
   end
 end
+
+# and now for utter madness, define lift using the Y combinator
+Y = lambda do |f|
+  lambda do |x|
+    lambda {|*args| f[ x[x], *args ]}
+  end[
+    lambda do |x|
+      lambda {|*args| f[ x[x], *args ]}
+    end]
+end
+
+def liftY(m, &f)
+  lambda do |*liftargs|
+    Y.call(lambda { |lever, args, margs|
+      return m.wrap(f.call(*args)) if margs.empty?
+      margs.first.pass do |x|
+        lever.call(args+[x], margs[1..-1])
+      end
+    }).call([], liftargs)
+  end
+end
+
+describe "liftY" do
+  it "a one argument function" do
+    inc = lambda {|a| a + 1 }
+    minc = liftY(Dot, &inc)
+    minc.call(Dot.wrap(2)).should == Dot.wrap(inc.call(2))
+  end
+
+  it "a two argument function" do
+    plus = lambda {|a, b| a + b}
+    mplus = liftY(Dot, &plus)
+    mplus.call(Dot.wrap(2), Dot.wrap(3)).should == Dot.wrap(plus.call(2, 3))
+  end
+
+  it "a three argument function" do
+    cond = lambda {|a, b, c| (a == 0) ? b : c}
+    mcond = liftY(Dot, &cond)
+    mcond.call(Dot.wrap(0), Dot.wrap(1), Dot.wrap(2)).should == Dot.wrap(cond.call(0, 1, 2))
+    mcond.call(Dot.wrap(1), Dot.wrap(1), Dot.wrap(2)).should == Dot.wrap(cond.call(1, 1, 2))
+  end
+end
+
